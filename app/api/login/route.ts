@@ -17,7 +17,6 @@ export  async function POST(req: NextRequest) {
     console.log("Email: ",email);
     console.log("Password: ",password);
 
-
     // Make a POST request to the Our API
     const response = await fetch(
         `${process.env.DJANGO_API_URL}/api/user/login/`,
@@ -28,9 +27,9 @@ export  async function POST(req: NextRequest) {
             },
             body: JSON.stringify({ email, password}),
         });
-         // log to see response data 
-        const data1 = await response.json();
-        console.log("Data from django api: ",data1);
+         // log to see response data (we can't not log with json 2 time!)
+        // const data1 = await response.json();
+        // console.log("Data from django api: ",data1);
         
     // If the request fails, return an error message to the client-side
     if (!response.ok) {
