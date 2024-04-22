@@ -9,7 +9,6 @@ export default function TestJWT() {
     const [user, setUser] = useState(null);
     const [unAuthorized, setUnAuthorized] = useState(false);
 
-
     // handle login
     const handleLogin = async () => {
 
@@ -109,7 +108,7 @@ export default function TestJWT() {
                </button>
         )}
         <button onClick={handleLogout} className='my-3 p-4 bg-blue-600 rounded-xl text-[#e2e8f0] text-2xl font-semibold'>
-            Partial Update
+           logout
         </button>
     </main>
   )
