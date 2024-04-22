@@ -73,6 +73,25 @@ export default function TestJWT() {
             console.log(error);
         });
     };
+    // handle logout 
+    const handleLogout = async () => {
+        fetch(process.env.NEXT_PUBLIC_API_URL + "/logout", {
+            method: "POST",
+            // everything thats store in cookies will send directly  to server 
+            credentials:"include",
+            body: JSON.stringify({}),
+
+        })
+        .then((res) => res.json())
+        .then((data) => {
+            console.log("Data form logout token : ",data)
+            setAccessToken(data.accessToken);
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+    };
+
 
 
   return (
@@ -89,7 +108,9 @@ export default function TestJWT() {
                     Refresh Token
                </button>
         )}
-
+        <button onClick={handleLogout} className='my-3 p-4 bg-blue-600 rounded-xl text-[#e2e8f0] text-2xl font-semibold'>
+            Partial Update
+        </button>
     </main>
   )
 }
