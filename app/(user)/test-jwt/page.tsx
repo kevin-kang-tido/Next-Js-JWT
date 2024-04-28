@@ -1,4 +1,5 @@
 'use client'
+import { useCreateProductMutation, useUpdateProductMutation ,useDeleteProductMutation} from '@/redux/service/ecommerce';
 import { NextResponse } from 'next/server';
 import React, { useState } from 'react'
 import { date } from 'yup';
@@ -8,7 +9,58 @@ export default function TestJWT() {
     const [accessToken, setAccessToken] = useState("");
     const [user, setUser] = useState(null);
     const [unAuthorized, setUnAuthorized] = useState(false);
+    // Create Product with generated hook
+    const [createProduct, { dataCreateProduct, isLoadingCreateProduct, errorCreateProduct }] = useCreateProductMutation();
+    // handle update product
+    const [updateProduct,{data,error,isLoading}] = useUpdateProductMutation();
+    // hanle Delete products
+    const [deleteProduct,{dataDelete, errorDelete, isLoadingDelete}] = useDeleteProductMutation();
 
+    // create 
+    console.log("Here is the data create: ",dataCreateProduct);
+
+    // update
+    console.log("Here is Data update with RTK: ",data);
+    console.log("Here is Error update : ",error);
+    // log dele 
+    console.log("Here is Data Delete : ",dataDelete)
+
+    // hanle create produc with RTK 
+    const handleCreateProductWithRTK = () => {
+        createProduct({
+            newProduct:{
+                category:{
+                    name:"Khmer Products"
+                },
+                name:"A new Laptop 15 Pro",
+                desc:"this is testng create product with RTK by bros ztart...:)",
+                price:124,
+                quantity:12
+            },
+            accessToken:accessToken
+        })
+
+    }
+    // handle update products by id with RTK query 
+    const handleUpdateWithRTK = async () => {
+        updateProduct({
+            id:759,
+            updatedProduct:{
+                // update product more here 
+                name: "update products one!"
+            },
+            accessToken:accessToken
+        });
+
+    }
+    // delete products
+    const handleDeleteWithRTK = async () => {
+        deleteProduct({
+            id:761,
+            accessToken:accessToken
+        })
+    }
+     
     // handle login
     const handleLogin = async () => {
 
@@ -91,7 +143,17 @@ export default function TestJWT() {
         });
     };
 
-
+    // hava loading
+    if(isLoading){
+        return(
+            <main className='h-screen grid place-content-center'>
+            <h1
+             className='font-bold text-5xl '
+             >Loading
+            </h1>
+            </main>
+        )
+    }
 
   return (
     <main className='h-screen grid place-content-center'>
@@ -109,6 +171,15 @@ export default function TestJWT() {
         )}
         <button onClick={handleLogout} className='my-3 p-4 bg-blue-600 rounded-xl text-[#e2e8f0] text-2xl font-semibold'>
            logout
+        </button>
+        <button onClick={handleCreateProductWithRTK} className='my-3 p-4 bg-blue-600 rounded-xl text-[#e2e8f0] text-2xl font-semibold'>
+           Create Product 
+        </button>
+        <button onClick={handleUpdateWithRTK} className='my-3 p-4 bg-blue-600 rounded-xl text-[#e2e8f0] text-2xl font-semibold'>
+           Handle Update RTK
+        </button>
+        <button onClick={handleDeleteWithRTK} className='my-3 p-4 bg-blue-600 rounded-xl text-[#e2e8f0] text-2xl font-semibold'>
+           Delete Product
         </button>
     </main>
   )
